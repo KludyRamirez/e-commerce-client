@@ -27,7 +27,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
             // console.log(uri);
             axios
               .post(
-                `https://bananauyu-api.onrender.com/api/uploadimages`,
+                `https://bananauyu.up.railway.app/api/uploadimages`,
                 { image: uri },
                 {
                   headers: {
