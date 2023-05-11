@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const userCart = async (cart, authtoken) =>
   await axios.post(
-    `https://bananauyu-api.onrender.com/api/user/cart`,
+    `https://bananauyu-server.onrender.com/api/user/cart`,
     { cart },
     {
       headers: {
@@ -12,14 +12,14 @@ export const userCart = async (cart, authtoken) =>
   );
 
 export const getUserCart = async (authtoken) =>
-  await axios.get(`https://bananauyu-api.onrender.com/api/user/cart`, {
+  await axios.get(`https://bananauyu-server.onrender.com/api/user/cart`, {
     headers: {
       authtoken,
     },
   });
 
 export const emptyUserCart = async (authtoken) =>
-  await axios.delete(`https://bananauyu-api.onrender.com/api/user/cart`, {
+  await axios.delete(`https://bananauyu-server.onrender.com/api/user/cart`, {
     headers: {
       authtoken,
     },
@@ -27,7 +27,7 @@ export const emptyUserCart = async (authtoken) =>
 
 export const saveUserAddress = async (authtoken, address) =>
   await axios.post(
-    `https://bananauyu-api.onrender.com/api/user/address`,
+    `https://bananauyu-server.onrender.com/api/user/address`,
     { address },
     {
       headers: {
@@ -38,7 +38,7 @@ export const saveUserAddress = async (authtoken, address) =>
 
 export const applyCoupon = async (authtoken, coupon) =>
   await axios.post(
-    `https://bananauyu-api.onrender.com/api/user/cart/coupon`,
+    `https://bananauyu-server.onrender.com/api/user/cart/coupon`,
     { coupon },
     {
       headers: {
@@ -49,7 +49,7 @@ export const applyCoupon = async (authtoken, coupon) =>
 
 export const createOrder = async (stripeResponse, authtoken) =>
   await axios.post(
-    `https://bananauyu-api.onrender.com/api/user/order`,
+    `https://bananauyu-server.onrender.com/api/user/order`,
     { stripeResponse },
     {
       headers: {
@@ -59,14 +59,14 @@ export const createOrder = async (stripeResponse, authtoken) =>
   );
 
 export const getUserOrders = async (authtoken) =>
-  await axios.get(`https://bananauyu-api.onrender.com/api/user/orders`, {
+  await axios.get(`https://bananauyu-server.onrender.com/api/user/orders`, {
     headers: {
       authtoken,
     },
   });
 
 export const getWishlist = async (authtoken) =>
-  await axios.get(`https://bananauyu-api.onrender.com/api/user/wishlist`, {
+  await axios.get(`https://bananauyu-server.onrender.com/api/user/wishlist`, {
     headers: {
       authtoken,
     },
@@ -74,7 +74,7 @@ export const getWishlist = async (authtoken) =>
 
 export const removeWishlist = async (productId, authtoken) =>
   await axios.put(
-    `https://bananauyu-api.onrender.com/api/user/wishlist/${productId}`,
+    `https://bananauyu-server.onrender.com/api/user/wishlist/${productId}`,
     {},
     {
       headers: {
@@ -85,7 +85,7 @@ export const removeWishlist = async (productId, authtoken) =>
 
 export const addToWishlist = async (productId, authtoken) =>
   await axios.post(
-    `https://bananauyu-api.onrender.com/api/user/wishlist`,
+    `https://bananauyu-server.onrender.com/api/user/wishlist`,
     { productId },
     {
       headers: {
@@ -100,7 +100,7 @@ export const createCashOrderForUser = async (
   couponTrueOrFalse
 ) =>
   await axios.post(
-    `https://bananauyu-api.onrender.com/api/user/cash-order`,
+    `https://bananauyu-server.onrender.com/api/user/cash-order`,
     { couponApplied: couponTrueOrFalse, COD },
     {
       headers: {
