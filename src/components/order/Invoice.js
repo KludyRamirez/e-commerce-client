@@ -51,7 +51,7 @@ const Invoice = ({ order }) => (
       <Text style={styles.text}>
         <Text>
           Date: {"               "}
-          {new Date(order.paymentIntent.created * 1000).toLocaleString()}
+          {new Date(order.paymentIntent.created).toLocaleString()}
         </Text>
         {"\n"}
         <Text>

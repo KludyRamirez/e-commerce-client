@@ -60,7 +60,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
     // console.log("remove image", public_id);
     axios
       .post(
-        `${process.env.REACT_APP_API}/removeimage`,
+        `https://bananauyu.up.railway.app/api/removeimage`,
         { public_id },
         {
           headers: {
