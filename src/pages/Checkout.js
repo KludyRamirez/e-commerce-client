@@ -191,7 +191,7 @@ const Checkout = ({ history }) => {
               <button
                 className="btn btn-primary"
                 disabled={!addressSaved || !products.length}
-                onClick={createCashOrder()}
+                onClick={createCashOrder}
               >
                 Place Order
               </button>
