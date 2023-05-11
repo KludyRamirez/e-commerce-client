@@ -2,6 +2,15 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://bananauyu.web.app",
+  "mime": {
+    "text/css": [
+      "css"
+    ],
+    "application/js": [
+      "js"
+    ]
+  },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@david.kucsai/react-pdf-table": "^0.3.0",
@@ -11,6 +20,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "antd": "^5.4.7",
     "axios": "^0.20.0",
     "bootstrap": "^5.2.3",
     "firebase": "^9.6.7",
@@ -54,5 +64,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "mime": "^3.0.0"
   }
 }
