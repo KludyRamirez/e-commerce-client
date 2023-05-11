@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-// import ShowPaymentInfo from "../cards/ShowPaymentInfo";
+import ShowPaymentInfo from "../cards/ShowPaymentInfo";
 import { useState } from "react";
 
 const Orders = ({ orders, handleStatusChange }) => {
@@ -64,7 +64,7 @@ const Orders = ({ orders, handleStatusChange }) => {
       {orders.filter(searched(keyword)).map((order) => (
         <div key={order._id} className="row pb-5">
           <div className="btn btn-block bg-light">
-            {/* <ShowPaymentInfo order={order} showStatus={false} /> */}
+            <ShowPaymentInfo order={order} showStatus={false} />
 
             <div className="row">
               <div className="col-md-4">Delivery Status</div>
