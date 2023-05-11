@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const createOrUpdateUser = async (authtoken) => {
   return await axios.post(
-    `https://bananauyu-server.onrender.com/api/create-or-update-user`,
+    `https://bananauyu.up.railway.app/api/create-or-update-user`,
     {},
     {
       headers: {
@@ -14,7 +14,7 @@ export const createOrUpdateUser = async (authtoken) => {
 
 export const currentUser = async (authtoken) => {
   return await axios.post(
-    `https://bananauyu-server.onrender.com/api/current-user`,
+    `https://bananauyu.up.railway.app/api/current-user`,
     {},
     {
       headers: {
@@ -26,7 +26,7 @@ export const currentUser = async (authtoken) => {
 
 export const currentAdmin = async (authtoken) => {
   return await axios.post(
-    `https://bananauyu-server.onrender.com/api/current-admin`,
+    `https://bananauyu.up.railway.app/api/current-admin`,
     {},
     {
       headers: {

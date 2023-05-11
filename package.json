@@ -25,7 +25,6 @@
     "bootstrap": "^5.2.3",
     "firebase": "^9.6.7",
     "lodash": "^4.17.20",
-    "node-sass": "^8.0.0",
     "react": "^16.13.1",
     "react-bootstrap": "2.7.4",
     "react-datepicker": "^3.2.2",

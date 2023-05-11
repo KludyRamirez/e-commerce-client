@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export const getCoupons = async () =>
-  await axios.get(`https://bananauyu-api.onrender.com/api/coupons`);
+  await axios.get(`https://bananauyu.up.railway.app/api/coupons`);
 
 export const removeCoupon = async (couponId, authtoken) =>
   await axios.delete(
-    `https://bananauyu-server.onrender.com/api/coupon/${couponId}`,
+    `https://bananauyu.up.railway.app/api/coupon/${couponId}`,
     {
       headers: {
         authtoken,
@@ -15,7 +15,7 @@ export const removeCoupon = async (couponId, authtoken) =>
 
 export const createCoupon = async (coupon, authtoken) =>
   await axios.post(
-    `https://bananauyu-server.onrender.com/api/coupon`,
+    `https://bananauyu.up.railway.app/api/coupon`,
     { coupon },
     {
       headers: {

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const createPaymentIntent = (authtoken, coupon) =>
   axios.post(
-    `https://bananauyu-server.onrender.com/api/create-payment-intent`,
+    `https://bananauyu.up.railway.app/api/create-payment-intent`,
     { couponApplied: coupon },
     {
       headers: {

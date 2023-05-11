@@ -25,14 +25,6 @@ const Checkout = ({ history }) => {
   const { user, COD } = useSelector((state) => ({ ...state }));
   const couponTrueOrFalse = useSelector((state) => state.coupon);
 
-  const pushToHistory = () => {
-    history.push("/user/history");
-  };
-
-  const pushToPayment = () => {
-    history.push("/payment");
-  };
-
   useEffect(() => {
     getUserCart(user.token).then((res) => {
       console.log("user cart res", JSON.stringify(res.data, null, 4));
@@ -131,7 +123,7 @@ const Checkout = ({ history }) => {
     </>
   );
 
-  const createCashOrder = ({ history }) => {
+  const createCashOrder = () => {
     createCashOrderForUser(user.token, COD, couponTrueOrFalse).then((res) => {
       console.log("USER CASH ORDER CREATED RES ", res);
       // empty cart form redux, local Storage, reset coupon, reset COD, redirect
@@ -199,7 +191,7 @@ const Checkout = ({ history }) => {
               <button
                 className="btn btn-primary"
                 disabled={!addressSaved || !products.length}
-                onClick={createCashOrder}
+                onClick={createCashOrder()}
               >
                 Place Order
               </button>
@@ -207,7 +199,7 @@ const Checkout = ({ history }) => {
               <button
                 className="btn btn-primary"
                 disabled={!addressSaved || !products.length}
-                onClick={pushToPayment()}
+                onClick={history.push("/payment")}
               >
                 Place Order
               </button>
