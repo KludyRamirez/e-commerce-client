@@ -36,7 +36,7 @@ const Orders = ({ orders, handleStatusChange }) => {
             <td>{order && order.product && order.product.price}</td>
             <td>{order && order.product && order.product.brand}</td>
             <td>{order && order.product && order.product.color}</td>
-            <td>{order && order.product && order.product.count}</td>
+            <td>{order && order.count}</td>
             <td>
               {order &&
               order.product &&
