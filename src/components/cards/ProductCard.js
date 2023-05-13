@@ -24,7 +24,7 @@ const ProductCard = ({ product }) => {
             <Link to={`/product/${slug}`}>
               <div
                 className="colorborder1 p-3 shopaction d-flex justify-content-center align-items-center"
-                eventKey="1"
+                eventkey="1"
               >
                 <AiOutlineEye size={20} color="#231f20" />
               </div>
@@ -39,7 +39,7 @@ const ProductCard = ({ product }) => {
             >
               <div
                 className="colorborder1 p-3 shopaction d-flex justify-content-center align-items-center"
-                eventKey="1"
+                eventkey="2"
               >
                 <AiOutlineShopping size={20} color="#231f20" />
               </div>

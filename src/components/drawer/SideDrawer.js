@@ -26,7 +26,7 @@ const SideDrawer = () => {
           payload: false,
         });
       }}
-      visible={drawer}
+      open={drawer}
     >
       {cart.map((p) => (
         <div key={p._id} className="row">
