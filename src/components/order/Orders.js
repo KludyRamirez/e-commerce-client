@@ -5,6 +5,12 @@ import { useState } from "react";
 
 const Orders = ({ orders, handleStatusChange }) => {
   const [keyword, setKeyword] = useState("");
+  const [selected, setSelected] = useState("");
+  const [options, setOptions] = useState([
+    { value: "option1", label: "Option 1", disabled: false },
+    { value: "option2", label: "Option 2", disabled: false },
+    { value: "option3", label: "Option 3", disabled: false },
+  ]);
 
   const searched = (keyword) => (order) =>
     order.orderStatus.toLowerCase().includes(keyword);
@@ -12,6 +18,36 @@ const Orders = ({ orders, handleStatusChange }) => {
   const handleSearchChange = (e) => {
     e.preventDefault();
     setKeyword(e.target.value.toLowerCase());
+  };
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setSelected(value);
+    switch (value) {
+      case "option1":
+        setOptions([
+          { value: "option1", label: "Option 1", disabled: false },
+          { value: "option2", label: "Option 2", disabled: false },
+          { value: "option3", label: "Option 3", disabled: true },
+        ]);
+        break;
+      case "option2":
+        setOptions([
+          { value: "option1", label: "Option 1", disabled: true },
+          { value: "option2", label: "Option 2", disabled: false },
+          { value: "option3", label: "Option 3", disabled: false },
+        ]);
+        break;
+      case "option3":
+        setOptions([
+          { value: "option1", label: "Option 1", disabled: true },
+          { value: "option2", label: "Option 2", disabled: true },
+          { value: "option3", label: "Option 3", disabled: false },
+        ]);
+        break;
+      default:
+        break;
+    }
   };
 
   const showOrderInTable = (order) => (
@@ -69,17 +105,16 @@ const Orders = ({ orders, handleStatusChange }) => {
             <div className="row">
               <div className="col-md-4">Delivery Status</div>
               <div className="col-md-8">
-                <select
-                  onChange={(e) =>
-                    handleStatusChange(order._id, e.target.value)
-                  }
-                  className="form-control"
-                  defaultValue={order.orderStatus}
-                  name="status"
-                >
-                  <option value="Processing">Processing</option>
-                  <option value="Dispatched">Dispatched</option>
-                  <option value="Completed">Completed</option>
+                <select value={selected} onChange={handleChange}>
+                  {options.map((option) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                      disabled={option.disabled}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
