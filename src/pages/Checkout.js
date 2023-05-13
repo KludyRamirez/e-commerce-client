@@ -49,7 +49,7 @@ const Checkout = ({ history }) => {
       setTotal(0);
       setTotalAfterDiscount(0);
       setCoupon("");
-      toast.success("Cart is empty. Continue shopping.");
+      toast.success("Cart is emapty. Contniue shopping.");
     });
   };
 
@@ -199,7 +199,7 @@ const Checkout = ({ history }) => {
               <button
                 className="btn btn-primary"
                 disabled={!addressSaved || !products.length}
-                onClick={history.push("/payment")}
+                onClick={() => history.push("/payment")}
               >
                 Place Order
               </button>
