@@ -39,19 +39,32 @@ const Cart = ({ history }) => {
   };
 
   const showCartItems = () => (
-    <div>
+    <table className="table table-bordered">
+      <thead className="thead-light">
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          <th scope="col">Brand</th>
+          <th scope="col">Color</th>
+          <th scope="col">Count</th>
+          <th scope="col">Shipping</th>
+          <th scope="col">Remove</th>
+        </tr>
+      </thead>
+
       {cart.map((p) => (
         <ProductCardInCheckout key={p._id} p={p} />
       ))}
-    </div>
+    </table>
   );
 
   return (
-    <div className="container-fluid p-4 cartbg">
-      <div className="d-flex justify-content-around flex-wrap">
-        <div className="col-md-7 pb-4">
-          <h4 className="pt-2">Cart / {cart.length} Product</h4>
-          <br />
+    <div className="container-fluid pt-2">
+      <div className="row">
+        <div className="col-md-8">
+          <h4>Cart / {cart.length} Product</h4>
+
           {!cart.length ? (
             <p>
               No products in cart. <Link to="/shop">Continue Shopping.</Link>
@@ -60,32 +73,28 @@ const Cart = ({ history }) => {
             showCartItems()
           )}
         </div>
-
-        <div className="col-md-4 justify-content-center flex-wrap osbg p-5">
-          <div className="d-flex justify-content-center ctitle">
-            Order Summary
-          </div>
-          <br />
-          <div>Products</div>
+        <div className="col-md-4">
+          <h4>Order Summary</h4>
+          <hr />
+          <p>Products</p>
           {cart.map((c, i) => (
             <div key={i}>
               <p>
-                {c.title} x {c.count}{" "}
-                <span className="float-end">₱{c.price * c.count}</span>
+                {c.title} x {c.count} = ${c.price * c.count}
               </p>
             </div>
           ))}
           <hr />
-          Total: <b>₱{getTotal()}</b>
+          Total: <b>${getTotal()}</b>
           <hr />
           {user ? (
-            <div className="d-flex justify-content-around gap-1">
+            <>
               <button
                 onClick={saveOrderToDb}
                 className="btn btn-sm btn-primary mt-2"
                 disabled={!cart.length}
               >
-                Pay With Credit Card
+                Proceed to Checkout
               </button>
               <br />
               <button
@@ -95,7 +104,7 @@ const Cart = ({ history }) => {
               >
                 Pay Cash on Delivery
               </button>
-            </div>
+            </>
           ) : (
             <button className="btn btn-sm btn-primary mt-2">
               <Link

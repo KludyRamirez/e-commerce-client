@@ -22,7 +22,7 @@ const Orders = ({ orders, handleStatusChange }) => {
           <th scope="col">Price</th>
           <th scope="col">Brand</th>
           <th scope="col">Product Type</th>
-          {/* <th scope="col">Count</th> */}
+          <th scope="col">Count</th>
           <th scope="col">Shipping</th>
         </tr>
       </thead>
@@ -36,7 +36,7 @@ const Orders = ({ orders, handleStatusChange }) => {
             <td>{order && order.product && order.product.price}</td>
             <td>{order && order.product && order.product.brand}</td>
             <td>{order && order.product && order.product.color}</td>
-            {/* <td>{order && order.product && order.product.count}</td> */}
+            <td>{order && order.product && order.product.count}</td>
             <td>
               {order &&
               order.product &&

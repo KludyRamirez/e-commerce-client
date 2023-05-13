@@ -14,7 +14,7 @@ import medal from "../../images/medal.png";
 import coin3d from "../../images/3dcoin.png";
 
 const ProductCardInCheckout = ({ p }) => {
-  const colors = ["Albums", "Photocard", "Other Merchandise"];
+  const colors = ["Album", "Photocard", "Other Merchandise"];
   let dispatch = useDispatch();
 
   const handleColorChange = (e) => {
