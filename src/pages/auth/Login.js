@@ -22,7 +22,7 @@ const Login = ({ history }) => {
   useEffect(() => {
     const intended = history.location.state;
     if (!intended && user && user.token) {
-      history.push("/shop");
+      history.push("/");
     }
   }, [history, user]);
 

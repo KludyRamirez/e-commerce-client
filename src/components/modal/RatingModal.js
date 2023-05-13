@@ -16,7 +16,7 @@ const RatingModal = ({ children }) => {
     if (!user || !user.token) {
       history.push({
         pathname: "/login",
-        state: { from: `${process.env.REACT_APP_API}/product/${slug}` },
+        state: { from: `https://bananauyu.up.railway.app/api/product/${slug}` },
       });
       return;
     }

@@ -62,23 +62,32 @@ const ProductCard = ({ product }) => {
       if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
-      // push new product to cart
-      cart.push({
-        ...product,
-        count: 1,
-      });
-      // remove duplicates
-      let unique = _.uniqWith(cart, _.isEqual);
+
+      // Check if the product already exists in the cart
+      const existingProductIndex = cart.findIndex(
+        (item) => item._id === product._id
+      );
+
+      // If product exists, update the count
+      if (existingProductIndex >= 0) {
+        cart[existingProductIndex].count += 1;
+      } else {
+        // If product doesn't exist, push new product to cart
+        cart.push({
+          ...product,
+          count: 1,
+        });
+      }
+
       // save to local storage
-      // console.log('unique', unique)
-      localStorage.setItem("cart", JSON.stringify(unique));
+      localStorage.setItem("cart", JSON.stringify(cart));
       // show tooltip
       setTooltip("Added");
 
-      // add to reeux state
+      // add to redux state
       dispatch({
         type: "ADD_TO_CART",
-        payload: unique,
+        payload: cart,
       });
       // show cart items in side drawer
       dispatch({
@@ -87,7 +96,6 @@ const ProductCard = ({ product }) => {
       });
     }
   };
-
   // destructure
   const { images, title, description, slug, price } = product;
   return (

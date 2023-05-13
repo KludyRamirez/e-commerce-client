@@ -9,7 +9,7 @@ const ShowPaymentInfo = ({ order, showStatus = true }) => (
         Amount:{" / "}
         {(order.paymentIntent.amount /= 100).toLocaleString("en-US", {
           style: "currency",
-          currency: "USD",
+          currency: "PHP",
         })}
       </span>
       {" / "}
@@ -19,14 +19,20 @@ const ShowPaymentInfo = ({ order, showStatus = true }) => (
       {" / "}
       <span>Payment: {order.paymentIntent.status.toUpperCase()}</span>
       {" / "}
+      <span>Name: {order && order.orderedBy && order.orderedBy.name}</span>
+      {" / "}
+      <span>Email: {order && order.orderedBy && order.orderedBy.email}</span>
+      {" / "}
+      <span>address: {order && order.orderedBy && order.orderedBy.name}</span>
+      {" / "}
       <span>
-        Orderd on:{" / "}
+        Ordered on:{" / "}
         {new Date(order.paymentIntent.created * 1000).toLocaleString()}
       </span>
       {" / "}
       <br />
       {showStatus && (
-        <span className="badge bg-primary text-white">
+        <span className="badge bg-primary text-black">
           STATUS: {order.orderStatus}
         </span>
       )}

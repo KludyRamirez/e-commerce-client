@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import ShowPaymentInfo from "../cards/ShowPaymentInfo";
 import { useState } from "react";
 
 const Orders = ({ orders, handleStatusChange }) => {
   const [keyword, setKeyword] = useState("");
-  const [selected, setSelected] = useState("");
-  const [options, setOptions] = useState([
-    { value: "option1", label: "Option 1", disabled: false },
-    { value: "option2", label: "Option 2", disabled: false },
-    { value: "option3", label: "Option 3", disabled: false },
-  ]);
+  const [buttonState, setButtonState] = useState({
+    button1: true,
+    button2: false,
+    button3: false,
+  });
+
+  const handleClick = (buttonId) => {
+    if (buttonId === "button1") {
+      setButtonState({
+        button1: false,
+        button2: true,
+        button3: false,
+      });
+    } else if (buttonId === "button2") {
+      setButtonState({
+        button1: false,
+        button2: false,
+        button3: true,
+      });
+    }
+  };
 
   const searched = (keyword) => (order) =>
     order.orderStatus.toLowerCase().includes(keyword);
@@ -18,36 +33,6 @@ const Orders = ({ orders, handleStatusChange }) => {
   const handleSearchChange = (e) => {
     e.preventDefault();
     setKeyword(e.target.value.toLowerCase());
-  };
-
-  const handleChange = (event) => {
-    const value = event.target.value;
-    setSelected(value);
-    switch (value) {
-      case "option1":
-        setOptions([
-          { value: "option1", label: "Option 1", disabled: false },
-          { value: "option2", label: "Option 2", disabled: false },
-          { value: "option3", label: "Option 3", disabled: true },
-        ]);
-        break;
-      case "option2":
-        setOptions([
-          { value: "option1", label: "Option 1", disabled: true },
-          { value: "option2", label: "Option 2", disabled: false },
-          { value: "option3", label: "Option 3", disabled: false },
-        ]);
-        break;
-      case "option3":
-        setOptions([
-          { value: "option1", label: "Option 1", disabled: true },
-          { value: "option2", label: "Option 2", disabled: true },
-          { value: "option3", label: "Option 3", disabled: false },
-        ]);
-        break;
-      default:
-        break;
-    }
   };
 
   const showOrderInTable = (order) => (
@@ -105,17 +90,32 @@ const Orders = ({ orders, handleStatusChange }) => {
             <div className="row">
               <div className="col-md-4">Delivery Status</div>
               <div className="col-md-8">
-                <select value={selected} onChange={handleChange}>
-                  {options.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                      disabled={option.disabled}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                <div>
+                  <button
+                    disabled={!buttonState.button1}
+                    onClick={(e) => handleClick("button1")}
+                  >
+                    Button 1
+                  </button>
+                  <button
+                    disabled={!buttonState.button2}
+                    onClick={() => handleClick("button2")}
+                    onChange={(e) =>
+                      handleStatusChange(order._id, e.target.value)
+                    }
+                  >
+                    Button 2
+                  </button>
+                  <button
+                    disabled={!buttonState.button3}
+                    onClick={() => handleClick("button3")}
+                    onChange={(e) =>
+                      handleStatusChange(order._id, e.target.value)
+                    }
+                  >
+                    Button 3
+                  </button>
+                </div>
               </div>
             </div>
           </div>
