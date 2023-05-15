@@ -19,11 +19,11 @@ const ShowPaymentInfo = ({ order, showStatus = true }) => (
       {" / "}
       <span>Payment: {order.paymentIntent.status.toUpperCase()}</span>
       {" / "}
-      <span>Name: {order && order.orderedBy && order.orderdBy.name}</span>
+      <span>Name: {order && order.orderdBy && order.orderdBy.name}</span>
       {" / "}
-      <span>Email: {order && order.orderedBy && order.orderdBy.email}</span>
+      <span>Email: {order && order.orderdBy && order.orderdBy.email}</span>
       {" / "}
-      <span>address: {order && order.orderedBy && order.orderdBy.address}</span>
+      <span>Address: {order && order.orderdBy && order.orderdBy.address}</span>
       {" / "}
       <span>
         Ordered on:{" / "}

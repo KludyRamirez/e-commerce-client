@@ -36,6 +36,50 @@ export const saveUserAddress = async (authtoken, address) =>
     }
   );
 
+export const saveUserCity = async (authtoken, city) =>
+  await axios.post(
+    `https://bananauyu.up.railway.app/api/user/city`,
+    { city },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+
+export const saveUserProvince = async (authtoken, province) =>
+  await axios.post(
+    `https://bananauyu.up.railway.app/api/user/province`,
+    { province },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+
+export const saveUserPostalCode = async (authtoken, postalcode) =>
+  await axios.post(
+    `https://bananauyu.up.railway.app/api/user/postalcode`,
+    { postalcode },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+
+export const saveUserCountry = async (authtoken, country) =>
+  await axios.post(
+    `https://bananauyu.up.railway.app/api/user/country`,
+    { country },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+
 export const applyCoupon = async (authtoken, coupon) =>
   await axios.post(
     `https://bananauyu.up.railway.app/api/user/cart/coupon`,

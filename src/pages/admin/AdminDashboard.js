@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "../../components/nav/AdminNav";
 import { getOrders, changeStatus } from "../../functions/admin";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Orders from "../../components/order/Orders";
 
@@ -19,13 +19,6 @@ const AdminDashboard = () => {
       setOrders(res.data);
     });
 
-  const handleStatusChange = (orderId, orderStatus) => {
-    changeStatus(orderId, orderStatus, user.token).then((res) => {
-      toast.success("Status updated");
-      loadOrders();
-    });
-  };
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -35,8 +28,8 @@ const AdminDashboard = () => {
 
         <div className="col-md-10">
           <h4>Admin Dashboard</h4>
-          {/* {JSON.stringify(orders)} */}
-          <Orders orders={orders} handleStatusChange={handleStatusChange} />
+
+          <Orders orders={orders} loadOrders={loadOrders} user={user} />
         </div>
       </div>
     </div>

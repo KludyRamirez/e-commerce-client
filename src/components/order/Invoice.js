@@ -36,9 +36,7 @@ const Invoice = ({ order }) => (
           <DataTableCell
             getContent={(x) => `$${x && x.product && x.product.price}`}
           />
-          <DataTableCell
-            getContent={(x) => `${x && x.product && x.product.count}`}
-          />
+          <DataTableCell getContent={(x) => x.product && x.count} />
           <DataTableCell
             getContent={(x) => x && x.product && x.product.brand}
           />

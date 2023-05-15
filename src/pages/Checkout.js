@@ -5,18 +5,32 @@ import {
   getUserCart,
   emptyUserCart,
   saveUserAddress,
+  saveUserCity,
+  saveUserState,
+  saveUsePostalCode,
+  saveUserCountry,
   applyCoupon,
   createCashOrderForUser,
+  saveUserProvince,
+  saveUserPostalCode,
 } from "../functions/user";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { Form, Button } from "react-bootstrap";
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [addressSaved, setAddressSaved] = useState(false);
+  const [city, setCity] = useState("");
+  const [citySaved, setCitySaved] = useState(false);
+  const [province, setProvince] = useState("");
+  const [provinceSaved, setProvinceSaved] = useState(false);
+  const [postalCode, setPostalCode] = useState("");
+  const [postalCodeSaved, setPostalCodeSaved] = useState(false);
+  const [country, setCountry] = useState("");
+  const [countrySaved, setCountrySaved] = useState(false);
   const [coupon, setCoupon] = useState("");
+
   // discount price
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
   const [discountError, setDiscountError] = useState("");
@@ -49,18 +63,68 @@ const Checkout = ({ history }) => {
       setTotal(0);
       setTotalAfterDiscount(0);
       setCoupon("");
-      toast.success("Cart is emapty. Contniue shopping.");
+      toast.success("Cart is empty. Contniue shopping.");
     });
   };
 
-  const saveAddressToDb = () => {
-    // console.log(address);
+  const saveAddressToDb = (e) => {
+    e.preventDefault();
+    console.log(saveAddressToDb);
     saveUserAddress(user.token, address).then((res) => {
-      if (res.data.ok) {
+      if (res.data.addressuser) {
         setAddressSaved(true);
-        toast.success("Address saved");
+        toast.success("Address Saved Successfully!");
       }
     });
+  };
+
+  const saveCityToDb = (e) => {
+    e.preventDefault();
+    console.log(saveCityToDb);
+    saveUserCity(user.token, city).then((res) => {
+      if (res.data.cityuser) {
+        setCitySaved(true);
+      }
+    });
+  };
+
+  const saveProvinceToDb = (e) => {
+    e.preventDefault();
+    console.log(saveProvinceToDb);
+    saveUserProvince(user.token, province).then((res) => {
+      if (res.data.provinceuser) {
+        setProvinceSaved(true);
+      }
+    });
+  };
+
+  const savePostalCodeToDb = (e) => {
+    e.preventDefault();
+    console.log(savePostalCodeToDb);
+    saveUserPostalCode(user.token, postalCode).then((res) => {
+      if (res.data.postalcodeuser) {
+        setPostalCodeSaved(true);
+      }
+    });
+  };
+
+  const saveCountryToDb = (e) => {
+    e.preventDefault();
+    console.log(saveCountryToDb);
+    saveUserCountry(user.token, country).then((res) => {
+      if (res.data.countryuser) {
+        setCountrySaved(true);
+      }
+    });
+  };
+
+  const saveAllToDb = (e) => {
+    e.preventDefault();
+    saveAddressToDb(e);
+    saveCityToDb(e);
+    saveProvinceToDb(e);
+    savePostalCodeToDb(e);
+    saveCountryToDb(e);
   };
 
   const applyDiscountCoupon = () => {
@@ -87,14 +151,70 @@ const Checkout = ({ history }) => {
     });
   };
 
-  const showAddress = () => (
-    <>
-      <ReactQuill theme="snow" value={address} onChange={setAddress} />
-      <button className="btn btn-primary mt-2" onClick={saveAddressToDb}>
-        Save
-      </button>
-    </>
-  );
+  const showAddress = () => {
+    return (
+      <Form onSubmit={saveAllToDb}>
+        <Form.Group controlId="address">
+          <Form.Label>Mailing Address</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter address, apt, space, floor, bld."
+            value={address}
+            required
+            onChange={(e) => setAddress(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId="city">
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter city"
+            value={city}
+            required
+            onChange={(e) => setCity(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId="province">
+          <Form.Label>Province</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Province"
+            // value={province}
+            required
+            onChange={(e) => setProvince(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId="postalCode">
+          <Form.Label>Postal Code</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter postal code"
+            // value={postalCode}
+            required
+            onChange={(e) => setPostalCode(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId="country">
+          <Form.Label>Country</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter country"
+            // value={country}
+            required
+            onChange={(e) => setCountry(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Button type="submit" variant="primary">
+          Continue
+        </Button>
+      </Form>
+    );
+  };
 
   const showProductSummary = () =>
     products.map((p, i) => (
@@ -159,9 +279,9 @@ const Checkout = ({ history }) => {
     <div className="row">
       <div className="col-md-6">
         <h4>Delivery Address</h4>
-        <br />
-        <br />
+
         {showAddress()}
+
         <hr />
         <h4>Got Coupon?</h4>
         <br />
@@ -190,7 +310,14 @@ const Checkout = ({ history }) => {
             {COD ? (
               <button
                 className="btn btn-primary"
-                disabled={!addressSaved || !products.length}
+                disabled={
+                  // !addressSaved ||
+                  !citySaved ||
+                  // !provinceSaved ||
+                  // !postalCodeSaved ||
+                  // !countrySaved ||
+                  !products.length
+                }
                 onClick={createCashOrder}
               >
                 Place Order
@@ -198,7 +325,14 @@ const Checkout = ({ history }) => {
             ) : (
               <button
                 className="btn btn-primary"
-                disabled={!addressSaved || !products.length}
+                disabled={
+                  // !addressSaved ||
+                  !citySaved ||
+                  // !provinceSaved ||
+                  // !postalCodeSaved ||
+                  // !countrySaved ||
+                  !products.length
+                }
                 onClick={() => history.push("/payment")}
               >
                 Place Order
