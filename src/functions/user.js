@@ -69,10 +69,10 @@ export const saveUserPostalCode = async (authtoken, postalcode) =>
     }
   );
 
-export const saveUserCountry = async (authtoken, country) =>
+export const saveUserContact = async (authtoken, contact) =>
   await axios.post(
-    `https://bananauyu.up.railway.app/api/user/country`,
-    { country },
+    `https://bananauyu.up.railway.app/api/user/contact`,
+    { contact },
     {
       headers: {
         authtoken,

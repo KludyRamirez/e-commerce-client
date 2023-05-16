@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { Form, Button } from "react-bootstrap";
 import {
   getUserCart,
   emptyUserCart,
   saveUserAddress,
   saveUserCity,
-  saveUserState,
-  saveUsePostalCode,
-  saveUserCountry,
+  saveUserContact,
   applyCoupon,
   createCashOrderForUser,
   saveUserProvince,
   saveUserPostalCode,
+  takeUserAddress,
 } from "../functions/user";
-import { Form, Button } from "react-bootstrap";
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
@@ -27,11 +26,10 @@ const Checkout = ({ history }) => {
   const [provinceSaved, setProvinceSaved] = useState(false);
   const [postalCode, setPostalCode] = useState("");
   const [postalCodeSaved, setPostalCodeSaved] = useState(false);
-  const [country, setCountry] = useState("");
-  const [countrySaved, setCountrySaved] = useState(false);
+  const [contact, setContact] = useState("");
+  const [contactSaved, setContactSaved] = useState(false);
   const [coupon, setCoupon] = useState("");
 
-  // discount price
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
   const [discountError, setDiscountError] = useState("");
 
@@ -45,25 +43,50 @@ const Checkout = ({ history }) => {
       setProducts(res.data.products);
       setTotal(res.data.cartTotal);
     });
+    const storedAddress = localStorage.getItem("address");
+    if (storedAddress) {
+      setAddress(storedAddress);
+    }
+
+    const storedCity = localStorage.getItem("city");
+    if (storedCity) {
+      setCity(storedCity);
+    }
+
+    const storedProvince = localStorage.getItem("province");
+    if (storedProvince) {
+      setProvince(storedProvince);
+    }
+
+    const storedPostalCode = localStorage.getItem("postalCode");
+    if (storedPostalCode) {
+      setPostalCode(storedPostalCode);
+    }
+
+    const storedContact = localStorage.getItem("contact");
+    if (storedContact) {
+      setContact(storedContact);
+    }
   }, []);
 
+  // ... retrieve and set other stored values in a similar way
+
   const emptyCart = () => {
-    // remove from local storage
     if (typeof window !== "undefined") {
       localStorage.removeItem("cart");
     }
-    // remove from redux
+
     dispatch({
       type: "ADD_TO_CART",
       payload: [],
     });
-    // remove from backend
+
     emptyUserCart(user.token).then((res) => {
       setProducts([]);
       setTotal(0);
       setTotalAfterDiscount(0);
       setCoupon("");
-      toast.success("Cart is empty. Contniue shopping.");
+      toast.success("Cart is Empty!");
     });
   };
 
@@ -73,6 +96,7 @@ const Checkout = ({ history }) => {
     saveUserAddress(user.token, address).then((res) => {
       if (res.data.addressuser) {
         setAddressSaved(true);
+        localStorage.setItem("address", address);
         toast.success("Address Saved Successfully!");
       }
     });
@@ -84,6 +108,9 @@ const Checkout = ({ history }) => {
     saveUserCity(user.token, city).then((res) => {
       if (res.data.cityuser) {
         setCitySaved(true);
+
+        // Save the city to local storage
+        localStorage.setItem("city", city);
       }
     });
   };
@@ -94,6 +121,9 @@ const Checkout = ({ history }) => {
     saveUserProvince(user.token, province).then((res) => {
       if (res.data.provinceuser) {
         setProvinceSaved(true);
+
+        // Save the province to local storage
+        localStorage.setItem("province", province);
       }
     });
   };
@@ -104,16 +134,22 @@ const Checkout = ({ history }) => {
     saveUserPostalCode(user.token, postalCode).then((res) => {
       if (res.data.postalcodeuser) {
         setPostalCodeSaved(true);
+
+        // Save the postal code to local storage
+        localStorage.setItem("postalCode", postalCode);
       }
     });
   };
 
-  const saveCountryToDb = (e) => {
+  const saveContactToDb = (e) => {
     e.preventDefault();
-    console.log(saveCountryToDb);
-    saveUserCountry(user.token, country).then((res) => {
-      if (res.data.countryuser) {
-        setCountrySaved(true);
+    console.log(saveContactToDb);
+    saveUserContact(user.token, contact).then((res) => {
+      if (res.data.contactuser) {
+        setContactSaved(true);
+
+        // Save the contact to local storage
+        localStorage.setItem("contact", contact);
       }
     });
   };
@@ -124,7 +160,7 @@ const Checkout = ({ history }) => {
     saveCityToDb(e);
     saveProvinceToDb(e);
     savePostalCodeToDb(e);
-    saveCountryToDb(e);
+    saveContactToDb(e);
   };
 
   const applyDiscountCoupon = () => {
@@ -133,87 +169,20 @@ const Checkout = ({ history }) => {
       console.log("RES ON COUPON APPLIED", res.data);
       if (res.data) {
         setTotalAfterDiscount(res.data);
-        // update redux coupon applied true/false
         dispatch({
           type: "COUPON_APPLIED",
           payload: true,
         });
       }
-      // error
+
       if (res.data.err) {
         setDiscountError(res.data.err);
-        // update redux coupon applied true/false
         dispatch({
           type: "COUPON_APPLIED",
           payload: false,
         });
       }
     });
-  };
-
-  const showAddress = () => {
-    return (
-      <Form onSubmit={saveAllToDb}>
-        <Form.Group controlId="address">
-          <Form.Label>Mailing Address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter address, apt, space, floor, bld."
-            value={address}
-            required
-            onChange={(e) => setAddress(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter city"
-            value={city}
-            required
-            onChange={(e) => setCity(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="province">
-          <Form.Label>Province</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Province"
-            // value={province}
-            required
-            onChange={(e) => setProvince(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="postalCode">
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter postal code"
-            // value={postalCode}
-            required
-            onChange={(e) => setPostalCode(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="country">
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter country"
-            // value={country}
-            required
-            onChange={(e) => setCountry(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Button type="submit" variant="primary">
-          Continue
-        </Button>
-      </Form>
-    );
   };
 
   const showProductSummary = () =>
@@ -246,28 +215,22 @@ const Checkout = ({ history }) => {
   const createCashOrder = () => {
     createCashOrderForUser(user.token, COD, couponTrueOrFalse).then((res) => {
       console.log("USER CASH ORDER CREATED RES ", res);
-      // empty cart form redux, local Storage, reset coupon, reset COD, redirect
       if (res.data.ok) {
-        // empty local storage
         if (typeof window !== "undefined") localStorage.removeItem("cart");
-        // empty redux cart
         dispatch({
           type: "ADD_TO_CART",
           payload: [],
         });
-        // empty redux coupon
         dispatch({
           type: "COUPON_APPLIED",
           payload: false,
         });
-        // empty redux COD
         dispatch({
           type: "COD",
           payload: false,
         });
-        // mepty cart from backend
         emptyUserCart(user.token);
-        // redirect
+
         setTimeout(() => {
           history.push("/user/history");
         }, 1000);
@@ -275,12 +238,70 @@ const Checkout = ({ history }) => {
     });
   };
 
+  const shippingComponent = () => {
+    return (
+      <Form onSubmit={saveAllToDb}>
+        <Form.Group controlId="address">
+          <Form.Label>Street Address</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter address, apt, space, floor, bld."
+            value={address}
+            required
+            onChange={(e) => setAddress(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId="city">
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter city"
+            value={city}
+            required
+            onChange={(e) => setCity(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId="province">
+          <Form.Label>Province</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Province"
+            value={province}
+            required
+            onChange={(e) => setProvince(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId="postalCode">
+          <Form.Label>Postal Code</Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Enter postal code"
+            value={postalCode}
+            required
+            onChange={(e) => setPostalCode(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId="contact">
+          <Form.Label>Contact Number</Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Enter Contact Number"
+            value={contact}
+            required
+            onChange={(e) => setContact(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Button type="submit" variant="primary">
+          Continue
+        </Button>
+      </Form>
+    );
+  };
+
   return (
     <div className="row">
       <div className="col-md-6">
-        <h4>Delivery Address</h4>
-
-        {showAddress()}
+        {shippingComponent()}
 
         <hr />
         <h4>Got Coupon?</h4>
@@ -311,11 +332,11 @@ const Checkout = ({ history }) => {
               <button
                 className="btn btn-primary"
                 disabled={
-                  // !addressSaved ||
+                  !addressSaved ||
                   !citySaved ||
-                  // !provinceSaved ||
-                  // !postalCodeSaved ||
-                  // !countrySaved ||
+                  !provinceSaved ||
+                  !postalCodeSaved ||
+                  !contactSaved ||
                   !products.length
                 }
                 onClick={createCashOrder}
@@ -326,11 +347,11 @@ const Checkout = ({ history }) => {
               <button
                 className="btn btn-primary"
                 disabled={
-                  // !addressSaved ||
+                  !addressSaved ||
                   !citySaved ||
-                  // !provinceSaved ||
-                  // !postalCodeSaved ||
-                  // !countrySaved ||
+                  !provinceSaved ||
+                  !postalCodeSaved ||
+                  !contactSaved ||
                   !products.length
                 }
                 onClick={() => history.push("/payment")}

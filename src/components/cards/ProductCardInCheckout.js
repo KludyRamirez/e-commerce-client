@@ -3,11 +3,7 @@ import ModalImage from "react-modal-image";
 import laptop from "../../images/laptop.png";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { AiOutlineDelete } from "react-icons/ai";
 import coin from "../../images/coin.png";
 import medal from "../../images/medal.png";

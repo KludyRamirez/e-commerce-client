@@ -23,17 +23,24 @@ const ShowPaymentInfo = ({ order, showStatus = true }) => (
       {" / "}
       <span>Email: {order && order.orderdBy && order.orderdBy.email}</span>
       {" / "}
-      <span>Address: {order && order.orderdBy && order.orderdBy.address}</span>
+      <span>
+        Address: {order && order.orderdBy && order.orderdBy.address}{" "}
+        {order && order.orderdBy && order.orderdBy.city}{" "}
+      </span>
+      {" / "}
+      <span>
+        Contact Number: {order && order.orderdBy && order.orderdBy.contact}
+      </span>
       {" / "}
       <span>
         Ordered on:{" / "}
-        {new Date(order.paymentIntent.created * 1000).toLocaleString()}
+        {new Date(order.paymentIntent.created).toLocaleString()}
       </span>
       {" / "}
       <br />
       {showStatus && (
         <span className="badge bg-primary text-black">
-          STATUS: {order.orderStatus}
+          Status: {order.orderStatus}
         </span>
       )}
     </p>

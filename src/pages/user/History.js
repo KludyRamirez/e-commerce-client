@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from "react";
 import UserNav from "../../components/nav/UserNav";
 import { getUserOrders } from "../../functions/user";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { toast } from "react-toastify";
 import ShowPaymentInfo from "../../components/cards/ShowPaymentInfo";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Invoice from "../../components/order/Invoice";
 
 const History = () => {
+  const [keyword, setKeyword] = useState("");
   const [orders, setOrders] = useState([]);
   const { user } = useSelector((state) => ({ ...state }));
 
-  const [keyword, setKeyword] = useState("");
+  useEffect(() => {
+    loadUserOrders();
+  }, []);
 
   const searched = (keyword) => (order) =>
-    order.orderStatus.toLowerCase().includes(keyword);
+    order && order.orderStatus.toLowerCase().includes(keyword);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
     setKeyword(e.target.value.toLowerCase());
   };
-
-  useEffect(() => {
-    loadUserOrders();
-  }, []);
 
   const loadUserOrders = () =>
     getUserOrders(user.token).then((res) => {
@@ -96,20 +94,19 @@ const History = () => {
 
   return (
     <>
-      <input
-        type="search"
-        placeholder="Filter"
-        value={keyword}
-        onChange={handleSearchChange}
-        className="form-control mb-4"
-      />
-
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-2">
             <UserNav />
           </div>
           <div className="col text-center">
+            <input
+              type="search"
+              placeholder="Filter"
+              value={keyword}
+              onChange={handleSearchChange}
+              className="form-control mb-4"
+            />
             <h4>
               {orders.length > 0
                 ? "User purchase orders"

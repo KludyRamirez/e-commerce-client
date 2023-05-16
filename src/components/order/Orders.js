@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const Orders = ({ orders, user, loadOrders }) => {
   const [keyword, setKeyword] = useState("");
-  const [selectedOption, setSelectedOption] = useState("Processing");
+  const [options, setOptions] = useState(["Dispatched", "Completed"]);
 
   const searched = (keyword) => (order) =>
     order && order.orderdBy.name.toLowerCase().includes(keyword);
@@ -25,7 +25,23 @@ const Orders = ({ orders, user, loadOrders }) => {
   };
 
   const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
+    e.preventDefault();
+    setOptions(e.target.value);
+
+    switch (e.target.value) {
+      case "Processing":
+        setOptions(["Processing", "Dispatched"]);
+        break;
+      case "Dispatched":
+        setOptions(["Dispatched", "Completed"]);
+        break;
+      case "Completed":
+        setOptions(["Completed"]);
+        break;
+      default:
+        setOptions(["Processing", "Dispatched", "Completed"]);
+        break;
+    }
   };
 
   const handleBothChange = (e, order) => {
@@ -94,28 +110,13 @@ const Orders = ({ orders, user, loadOrders }) => {
                     className="form-control"
                     defaultValue={order.orderStatus}
                     name="status"
+                    disabled={order.orderStatus === "Completed"}
                   >
-                    <option
-                      value="Processing"
-                      disabled={
-                        selectedOption === "Completed" ||
-                        selectedOption === "Dispatched"
-                      }
-                    >
-                      Processing
-                    </option>
-                    <option
-                      value="Dispatched"
-                      disabled={selectedOption === "Completed"}
-                    >
-                      Dispatched
-                    </option>
-                    <option
-                      value="Completed"
-                      disabled={selectedOption === "Processing"}
-                    >
-                      Completed
-                    </option>
+                    {options.map((option) => (
+                      <option key={option} value={option}>
+                        {option.charAt(0).toUpperCase() + option.slice(1)}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
